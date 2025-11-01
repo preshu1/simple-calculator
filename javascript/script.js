@@ -9,43 +9,39 @@ const multiply = document.querySelector("#mul");
 const divide = document.querySelector("#div");
 const result = document.querySelector("#result");
 
-value = 0;
-//adding eventListener to each button
-addition.addEventListener("click", function () {
-  const firstNum = parseFloat(firstInput.value);
-  const secondNum = parseFloat(secondInput.value);
-  value = firstNum + secondNum;
-  result.textContent = `${value}`;
-});
-
-//for subtraction
-subtraction.addEventListener("click", function () {
-  const firstNum = parseFloat(firstInput.value);
-  const secondNum = parseFloat(secondInput.value);
-  value = firstNum - secondNum;
-  result.textContent = `${value}`;
-});
-
-// for multiplication
-multiply.addEventListener("click", function () {
-  const firstNum = parseFloat(firstInput.value);
-  const secondNum = parseFloat(secondInput.value);
-  value = firstNum * secondNum;
-  result.textContent = `${value}`;
-});
-
-//for division
-divide.addEventListener("click", function () {
+let value = 0;
+//function to handle operation
+function calculate(operator) {
   const firstNum = parseFloat(firstInput.value);
   const secondNum = parseFloat(secondInput.value);
 
-  if (secondNum === 0) {
-    result.textContent = "sorry can't divide by zero!";
-  } else {
-    value = firstNum / secondNum;
-    result.textContent = `${value}`;
+  //check if the numbers are valid
+  if (isNaN(firstNum) || isNaN(secondNum)) {
+    result.textContent = "please enter a valid number";
+    return;
   }
-});
+
+  if (operator === "add") {
+    value = firstNum + secondNum;
+  } else if (operator === "sub") {
+    value = firstNum - secondNum;
+  } else if (operator === "mul") {
+    value = firstNum * secondNum;
+  } else if (operator === "div") {
+    if (secondNum === 0) {
+      result.textContent = "Sorry can't divide by zero";
+      return;
+    }
+    value = firstNum / secondNum;
+  }
+  result.textContent = value;
+}
+
+//calling function and adding event listener to each button
+addition.addEventListener("click", () => calculate("add"));
+subtraction.addEventListener("click", () => calculate("sub"));
+multiply.addEventListener("click", () => calculate("mul"));
+divide.addEventListener("click", () => calculate("div"));
 
 reset.addEventListener("click", function () {
   firstInput.value = "";
